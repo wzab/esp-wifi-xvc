@@ -49,10 +49,10 @@ function pulse(i1,i2,len)
     else
        gpio.write(TMS,gpio.LOW)
     end
-    gpio.write(TCK,gpio.LOW)
     if gpio.read(TDO)==1 then
        obyte = bit.bor(obyte,mask)
     end
+    gpio.write(TCK,gpio.HIGH)
     mask = bit.lshift(mask,1)
     if mask==256 then
       i1 = i1 + 1
@@ -62,7 +62,7 @@ function pulse(i1,i2,len)
       obyte = 0
       tmr.wdclr()
     end
-    gpio.write(TCK,gpio.HIGH)
+    gpio.write(TCK,gpio.LOW)
   end
   -- Add the last, uncompleted byte to the output data
   if mask ~= 1 then
